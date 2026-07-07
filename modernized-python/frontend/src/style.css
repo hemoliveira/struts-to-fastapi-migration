@@ -1,0 +1,495 @@
+:root {
+  --ink: #161a23;
+  --ink-soft: #4b5566;
+  --ink-faint: #8891a0;
+  --paper: #f6f7fa;
+  --surface: #ffffff;
+  --line: #e3e6ec;
+  --accent: #3b4fe0;
+  --accent-soft: #eef0fd;
+
+  --status-draft-bg: #eef0f3;
+  --status-draft-fg: #4b5566;
+  --status-submitted-bg: #fff3d6;
+  --status-submitted-fg: #8a5a00;
+  --status-approved-bg: #e1f5e9;
+  --status-approved-fg: #177a46;
+  --status-rejected-bg: #fde8e8;
+  --status-rejected-fg: #b3261e;
+}
+
+[data-theme="dark"] {
+  --ink: #f8fafc;
+  --ink-soft: #94a3b8;
+  --ink-faint: #64748b;
+  --paper: #0f172a;
+  --surface: #1e293b;
+  --line: #334155;
+  --accent: #6366f1;
+  --accent-soft: #1e1b4b;
+
+  --status-draft-bg: #334155;
+  --status-draft-fg: #cbd5e1;
+  --status-submitted-bg: #78350f;
+  --status-submitted-fg: #fde047;
+  --status-approved-bg: #064e3b;
+  --status-approved-fg: #34d399;
+  --status-rejected-bg: #7f1d1d;
+  --status-rejected-fg: #fca5a5;
+}
+
+/* Global transitions to smooth out theme switching */
+body, .card, table.grid, table.fields, table.grid td, table.grid th, form, select, input, button, .step-dot, .step-label, .step-line {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Single centering point for all page content -- everything between
+   <body> and </body> is wrapped in this div (see each JSP / App.jsx).
+   Deliberately NOT "body > *" for every top-level element: any child
+   with a non-block display (an inline form, etc.) silently ignores
+   max-width/auto-margins, which is exactly the bug that motivated this. */
+.container {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ---- Top bar ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.75rem 0 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.brand::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+/* ---- Headings ---- */
+h1, h2, h3 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  /* margin-top/bottom only (not the "margin" shorthand): that shorthand
+     would reset margin-left/right to 0, clobbering the auto-centering
+     margins set on body > * below. */
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.3rem; margin-top: 2rem; }
+h3 { font-size: 1.05rem; margin-top: 1.75rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; font-size: 0.8rem; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Cards / surfaces ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Tables ---- */
+table.grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.75rem;
+}
+
+table.grid th {
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  background: var(--paper);
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+}
+
+table.grid td {
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+table.grid tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table.grid tbody tr:hover td {
+  background: var(--accent-soft);
+}
+
+table.grid td:nth-last-child(2),
+table.grid td:nth-last-child(3),
+table.grid td:nth-last-child(4),
+table.grid td:nth-last-child(5) {
+  font-variant-numeric: tabular-nums;
+}
+
+.money, table.grid td.money, table.fields td {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+table.fields {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+table.fields th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  width: 140px;
+  color: var(--ink-faint);
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+table.fields td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--line);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+table.fields tr:last-child th,
+table.fields tr:last-child td {
+  border-bottom: none;
+}
+
+table.totals td {
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+table.totals tr:last-child td {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ---- Status badges ---- */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-DRAFT { background: var(--status-draft-bg); color: var(--status-draft-fg); }
+.status-SUBMITTED { background: var(--status-submitted-bg); color: var(--status-submitted-fg); }
+.status-APPROVED { background: var(--status-approved-bg); color: var(--status-approved-fg); }
+.status-REJECTED { background: var(--status-rejected-bg); color: var(--status-rejected-fg); }
+
+/* ---- Order status stepper (signature element) ---- */
+.stepper {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.step-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-faint);
+}
+
+.step-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+  margin: 0 0.6rem;
+  min-width: 24px;
+}
+
+.step.is-complete .step-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.step.is-complete .step-label { color: var(--ink); }
+.step-line.is-complete { background: var(--accent); }
+
+.step.is-current .step-dot {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.step.is-current .step-label { color: var(--ink); }
+
+.step.is-approved .step-dot {
+  border-color: var(--status-approved-fg);
+  background: var(--status-approved-fg);
+  color: #fff;
+}
+.step.is-approved .step-label { color: var(--status-approved-fg); }
+.step-line.is-approved { background: var(--status-approved-fg); }
+
+.step.is-rejected .step-dot {
+  border-color: var(--status-rejected-fg);
+  background: var(--status-rejected-fg);
+  color: #fff;
+}
+.step.is-rejected .step-label { color: var(--status-rejected-fg); }
+.step-line.is-rejected { background: var(--status-rejected-fg); }
+
+/* ---- Forms ---- */
+form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Two single-button forms sitting side by side (Approve/Reject) -- laid
+   out with flexbox on a wrapping div instead of `style="display:inline"`
+   on the forms themselves, which broke their centering (see git history). */
+.button-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.button-row form {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+form label {
+  display: block;
+  margin-top: 0.9rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+form label:first-of-type {
+  margin-top: 0;
+}
+
+select, input[type="number"], input[type="text"] {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+select:focus, input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.hint {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin: 0.35rem 0 0.9rem;
+}
+
+button {
+  margin-top: 1.1rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover {
+  background: #2d3fc2;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---- Error state ---- */
+.error {
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-fg);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ---- Dashboard Grid ---- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  font-weight: 600;
+}
+
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ---- Theme Toggle Button ---- */
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Button row layout tweaks */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button-row button {
+  margin-top: 0;
+}

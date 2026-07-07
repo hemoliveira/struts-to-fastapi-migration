@@ -1,0 +1,37 @@
+# OS metadata files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/
+*.iml
+
+# Python (Modernized Backend)
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+venv/
+.venv/
+*.db
+*.sqlite3
+
+# Node / JS (Modernized Frontend)
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# Java / Maven (Legacy App)
+target/
+
+# Environments and secrets
+.env
+.env.local
+.env.*.local
+!*.example
+
+# Agents
+.claude/

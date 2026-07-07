@@ -1,0 +1,295 @@
+/* OrderCo -- internal purchase order tool. Last touched 2009. */
+
+body {
+  margin: 0;
+  background: #ececec;
+  color: #222222;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+.container {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 12px 40px;
+}
+
+/* ---- Top bar ---- */
+.topbar {
+  padding: 10px 0;
+  margin-bottom: 14px;
+  border-bottom: 3px solid #003366;
+}
+
+.brand {
+  font-weight: bold;
+  font-size: 16px;
+  color: #003366;
+  text-decoration: none;
+}
+
+/* ---- Headings ---- */
+h1, h2, h3 {
+  color: #003366;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+h1 { font-size: 18px; }
+h2 { font-size: 15px; margin-top: 24px; border-bottom: 1px solid #999999; padding-bottom: 3px; }
+h3 { font-size: 13px; }
+
+a {
+  color: #0000cc;
+}
+a:hover {
+  color: #cc0000;
+}
+
+/* ---- Cards / surfaces ---- */
+.card {
+  background: #ffffff;
+  border: 1px solid #999999;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+/* ---- Tables ---- */
+table.grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid #999999;
+  margin-bottom: 18px;
+}
+
+table.grid th {
+  text-align: left;
+  font-size: 12px;
+  color: #ffffff;
+  background: #6b7f99;
+  padding: 5px 8px;
+  border: 1px solid #999999;
+  font-weight: bold;
+}
+
+table.grid td {
+  padding: 5px 8px;
+  border: 1px solid #cccccc;
+  color: #222222;
+}
+
+table.grid tbody tr:nth-child(even) td {
+  background: #f2f2f2;
+}
+
+.money, table.grid td.money, table.fields td {
+  font-family: "Courier New", monospace;
+}
+
+table.fields {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  background: #ffffff;
+  border: 1px solid #999999;
+}
+
+table.fields th {
+  text-align: left;
+  padding: 5px 10px;
+  width: 140px;
+  color: #ffffff;
+  background: #6b7f99;
+  font-weight: bold;
+  font-size: 12px;
+  border: 1px solid #999999;
+}
+
+table.fields td {
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  font-family: "Courier New", monospace;
+}
+
+table.totals td {
+  text-align: right;
+  font-size: 13px;
+}
+
+table.totals tr:last-child td {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ---- Status badges ---- */
+.status {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid #999999;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-DRAFT { background: #eeeeee; color: #555555; }
+.status-SUBMITTED { background: #fff2cc; color: #7f6000; }
+.status-APPROVED { background: #d9ead3; color: #274e13; }
+.status-REJECTED { background: #f4cccc; color: #990000; }
+
+/* ---- Order status stepper ---- */
+.stepper {
+  margin-top: 12px;
+  margin-bottom: 18px;
+  padding: 8px 10px;
+  background: #ffffff;
+  border: 1px solid #999999;
+  font-size: 12px;
+}
+
+.step {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid #999999;
+  background: #eeeeee;
+  color: #555555;
+  font-weight: bold;
+}
+
+.step-label { margin-left: 3px; }
+
+.step-line {
+  display: inline;
+  color: #999999;
+  margin: 0 6px;
+}
+.step-line::before { content: '\2192'; }
+
+.step.is-complete, .step.is-current {
+  background: #d9e6f5;
+  color: #003366;
+  border-color: #003366;
+}
+
+.step.is-approved { background: #d9ead3; color: #274e13; border-color: #274e13; }
+.step.is-rejected { background: #f4cccc; color: #990000; border-color: #990000; }
+
+/* ---- Forms ---- */
+form {
+  background: #ffffff;
+  border: 1px solid #999999;
+  padding: 10px 14px 14px;
+  margin-bottom: 14px;
+}
+
+.button-row {
+  margin-bottom: 14px;
+}
+
+.button-row form {
+  display: inline-block;
+  border: none;
+  padding: 0;
+  margin-bottom: 0;
+  margin-right: 8px;
+  background: none;
+}
+
+form label {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #444444;
+}
+
+form label:first-of-type {
+  margin-top: 0;
+}
+
+select, input[type="number"], input[type="text"] {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  padding: 3px 4px;
+  border: 1px solid #999999;
+  font-size: 12px;
+  font-family: inherit;
+  color: #222222;
+  background: #ffffff;
+}
+
+.hint {
+  display: block;
+  font-size: 11px;
+  color: #666666;
+  margin: 4px 0 8px;
+  font-style: italic;
+}
+
+button {
+  margin-top: 10px;
+  padding: 4px 12px;
+  border: 1px solid #666666;
+  background: #d9d9d9;
+  color: #222222;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #c6c6c6;
+}
+
+.button-row button {
+  margin-top: 0;
+}
+
+/* ---- Error state ---- */
+.error {
+  background: #f4cccc;
+  color: #990000;
+  border: 1px solid #990000;
+  padding: 6px 10px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* ---- Dashboard summary (plain bordered table, not "cards") ---- */
+.dashboard-grid {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+  background: #ffffff;
+  border: 1px solid #999999;
+}
+
+.metric-card {
+  display: table-cell;
+  border: 1px solid #cccccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.metric-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #555555;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  color: #003366;
+  font-family: "Courier New", monospace;
+}
