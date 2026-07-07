@@ -15,7 +15,7 @@ for the numbers.
 
 ```mermaid
 graph TD
-    subgraph Legacy (Struts/JSP/JDBC)
+    subgraph Legacy ["Legacy (Struts/JSP/JDBC)"]
         L_JSP[JSP Pages / JSTL Templates] -->|HTTP POST .do| L_Servlet[Struts ActionServlet]
         L_Servlet -->|struts-config.xml| L_Action[Struts Action Class]
         L_Action -->|Populate & Validate| L_Form[ActionForm]
@@ -24,7 +24,7 @@ graph TD
         L_DAO -->|Plain JDBC Connection| L_DB[(H2 Database / Oracle)]
     end
 
-    subgraph Modernized (FastAPI/React/Postgres)
+    subgraph Modernized ["Modernized (FastAPI/React/Postgres)"]
         M_React[React SPA Client] -->|Fetch JSON REST API| M_Router[FastAPI APIRouter]
         M_Router -->|Validate Request Body| M_Pydantic[Pydantic Schemas]
         M_Router -->|Execute Rules & Services| M_Service[Order Service Python]
